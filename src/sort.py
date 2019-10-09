@@ -1,4 +1,4 @@
-
+# -*- encoding: utf-8 -*-
 import random
 
 
@@ -42,11 +42,37 @@ def selection_sort():
 
 
 def heap_sort():
+    # /src/heap
     pass
 
 
 def quick_sort():
-    pass
+    arr = [i for i in range(100)]
+    random.shuffle(arr)
+
+    def _quicksort(A, left, right):
+        if left >= right:
+            return
+        pivot_idx = random.randint(left, right)
+        pivot = A[pivot_idx]
+        A[pivot_idx], A[left] = A[left], A[pivot_idx]
+        L, R = left, right
+
+        while L < R:
+            while R > L and A[R] >= pivot:
+                R -= 1
+            A[L] = A[R]
+            while L < R and A[L] <= pivot:
+                L += 1
+            A[R] = A[L]
+        A[L] = pivot
+
+        _quicksort(A, left, L-1)
+        _quicksort(A, L+1, right)
+
+    print(arr)
+    _quicksort(arr, 0, len(arr) - 1)
+    print(arr)
 
 
 def bubble_sort():
@@ -70,6 +96,6 @@ def insertion_sort():
 
 
 if __name__ == '__main__':
-    bubble_sort()
+    quick_sort()
 
 
