@@ -1,44 +1,47 @@
 # -*- encoding: utf-8 -*-
 import random
+import multiprocessing
 
 
-def merge_sort():
-    arr1 = [i for i in range(0, 100, 2)]
-    arr2 = [i for i in range(1, 100, 2)]
-
+def _merge(A, p, q, r):
     arr = []
-    idx, idx1, idx2 = 0, 0, 0
-    length = len(arr1) + len(arr2)
+    idx, idx1, idx2 = 0, p, q+1
 
-    while idx < length:
-
-        if idx1 == len(arr1):
-            while idx2 < len(arr2):
-                arr.append(arr2[idx2])
-                idx += 1
-                idx2 += 1
-            continue
-
-        if idx2 == len(arr2):
-            while idx1 < len(arr1):
-                arr.append(arr1[idx1])
-                idx += 1
-                idx1 += 1
-            continue
-
-        if arr1[idx1] <= arr2[idx2]:
-            arr.append(arr1[idx1])
+    while idx1 <= q and idx2 <= r:
+        if A[idx1] < A[idx2]:
+            arr.append(A[idx1])
             idx1 += 1
-        elif arr1[idx1] > arr2[idx2]:
-            arr.append(arr2[idx2])
+        else:
+            arr.append(A[idx2])
             idx2 += 1
-        idx += 1
 
-    print(arr)
+    while idx1 <= q:
+        arr.append(A[idx1])
+        idx1 += 1
+    while idx2 <= r:
+        arr.append(A[idx2])
+        idx2 += 1
+
+    for i, element in enumerate(arr):
+        A[p+i] = element
 
 
-def selection_sort():
-    pass
+def merge_sort(A, p, r):
+    if p < r:
+        q = p + ((r-p) >> 1)
+        merge_sort(A, p, q)
+        merge_sort(A, q+1, r)
+        _merge(A, p, q, r)
+
+
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        element = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > element:
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = element
 
 
 def heap_sort():
@@ -46,10 +49,7 @@ def heap_sort():
     pass
 
 
-def quick_sort():
-    arr = [i for i in range(100)]
-    random.shuffle(arr)
-
+def quick_sort(arr):
     def _quicksort(A, left, right):
         if left >= right:
             return
@@ -70,32 +70,37 @@ def quick_sort():
         _quicksort(A, left, L-1)
         _quicksort(A, L+1, right)
 
-    print(arr)
     _quicksort(arr, 0, len(arr) - 1)
-    print(arr)
 
 
-def bubble_sort():
-    arr = [i for i in range(100)]
-    random.shuffle(arr)
-
+def bubble_sort(arr):
     for i in range(len(arr) - 1):
         for j in range(len(arr) - 1 - i):
             if arr[j] > arr[j+1]:
                 arr[j], arr[j+1] = arr[j+1], arr[j]
-
-    print(arr)
 
 
 def bucket_sort():
     pass
 
 
-def insertion_sort():
-    pass
+def selection_sort(arr):
+    for i in range(len(arr)):
+        min_idx, min_val = i, arr[i]
+        for j in range(i+1, len(arr)):
+            if arr[j] < min_val:
+                min_val = arr[j]
+                min_idx = j
+        if min_idx != i:
+            arr[min_idx], arr[i] = arr[i], arr[min_idx]
+            print(arr)
 
 
 if __name__ == '__main__':
-    quick_sort()
+    arr = [i for i in range(10)]
+    random.shuffle(arr)
+    print(arr)
+    selection_sort(arr)
+    print(arr)
 
 
