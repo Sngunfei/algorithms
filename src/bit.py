@@ -94,9 +94,9 @@ def find_1_from_n(nums, n):
     bits = [0] * 32
     power = 0
     while power < 32:
+        curNum = 2 ** power
         for num in nums:
-            if 2**power & num:
-                bits[power] += 1
+            bits[power] += curNum & num
         power += 1
     ans = 0
     for i in range(32):
