@@ -9,7 +9,7 @@ from .disjoint_set import make_set, find_set, union_set
 import heapq
 
 
-def kruskal(edges=None):
+def kruskal(edges):
     """
     最小生成树, kruskal算法，O（E * logV）
     集合A是一个森林，每次加入到A中的安全边，永远是连接两个不同分量的权重最小的边。
@@ -42,13 +42,56 @@ def kruskal(edges=None):
     return mst
 
 
-def prim():
+def prim(edges):
     """
     最小生成树，prim算法
     集合A是一棵树，每次加入到A中的安全边，永远是连接A和A以外某个节点的最小权重边
+
+    树中每次添加新节点时，都要去松弛其他节点。
     :return:
     """
-    pass
+    from collections import defaultdict
+    import heapq
+
+    adj = defaultdict(dict)  # 邻接表
+    dist = {}
+    prev = {}  # 前驱点
+
+    root = None
+    for edge in edges:
+        u, v, w = edge.start, edge.end, edge.weight
+        dist[u] = dist[v] = float("inf")
+        prev[u] = prev[v] = None
+        adj[u][v] = adj[v][u] = w
+
+        if not root:
+            root = u  #　随机选根
+
+    dist[root] = 0
+    vis = set()
+    i = 0
+    while i < len(adj):  # 直到弹出N个节点
+        min_dist = float("inf")
+        min_node = None
+        for node, distance in dist.items():
+            if node not in vis and distance < min_dist:
+                min_node, min_dist = node, distance
+
+        vis.add(min_node)
+        for neighbor, weight in adj[min_node]:
+            if neighbor not in vis and weight < dist[neighbor]:
+                dist[neighbor] = weight
+                prev[neighbor] = min_node
+
+        i += 1
+
+    mst = set()
+    for node in vis:
+        _pre = prev.get(node, None)
+        if _pre:
+            mst.add(Edge(_pre, node, adj[_pre][node]))
+    return mst
+
 
 
 if __name__ == '__main__':
