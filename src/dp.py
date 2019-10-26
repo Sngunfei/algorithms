@@ -63,5 +63,50 @@ def cut_rod_test():
     print(cut_rod_bottom_up(4, p))
 
 
+
+def matrix_link(matrices):
+    """
+    矩阵链乘, 先设置初始长度为2，然后逐渐增加，然后在长度为length的[i, ..., j]里，找到合适的分割点k
+    :param matrices: [[m, n], ...]
+    :return:
+    """
+    size = len(matrices)
+    cost = [[float("inf")] * size for _ in range(size)]
+    for i in range(size):
+        cost[i][i] = 0
+    s = [[0] * size for _ in range(size)]
+    for length in range(2, size+1):
+        for i in range(size-length+1):
+            j = i + length - 1
+            for k in range(i, j):
+                _cost = cost[i][k] + cost[k+1][j] + matrices[i][0] * matrices[k][1] * matrices[j][1]
+                if _cost < cost[i][j]:
+                    cost[i][j] = _cost
+                    s[i][j] = k
+    return cost, s
+
+
+def matrix_link_test():
+    matrices = [[10, 100], [100, 5], [5, 50], [50, 30]]
+    cost, s = matrix_link(matrices)
+    print(cost)
+    size = len(matrices)
+
+    def _func(matrix, i, j):
+        if i > j:
+            return ""
+        if i == j:
+            return "A{}".format(i)
+        k = matrix[i][j]
+        print(i, j, k)
+        if k == i:
+            return "(A{}{})".format(i, _func(matrix, i+1, j))
+        return "{}{}".format(_func(matrix, i, k), _func(matrix, k+1, j))
+
+    print(_func(s, 0, size-1))
+    print(cost[0][size - 1])
+
+
+
 if __name__ == '__main__':
-    cut_rod_test()
+    matrix_link_test()
