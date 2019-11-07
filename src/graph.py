@@ -5,10 +5,46 @@
 """
 
 class Edge:
-    def __init__(self, start, end, weight=1.0):
+    def __init__(self, start, end, weight=1.0, directed=False):
         self.start = start
         self.end = end
         self.weight = weight
+        self.directed = directed
+
+
+class Graph:
+    def __init__(self, edges):
+
+        self.edges = edges
+        self.n_edge = len(edges)
+        self._create_node_map()
+
+
+
+    def _create_node_map(self):
+        self.node2idx = {}
+        self.idx2node = {}
+        idx = 0
+        for edge in self.edges:
+            u, v = edge.start, edge.end
+            if u not in self.node2idx:
+                self.node2idx[u] = idx
+                self.idx2node[idx] = u
+                idx += 1
+            if v not in self.node2idx:
+                self.node2idx[v] = idx
+                self.idx2node[idx] = v
+                idx += 1
+
+    def get_link_matrix(self):
+        """
+        获取图的邻接矩阵形式
+        :return:
+        """
+        if
+
+
+
 
 
 def bfs():
@@ -43,9 +79,10 @@ def dijkstra():
     pass
 
 
+
 def bellman_ford():
     """
-    单源最短路径，bellman-ford算法
+    单源最短路径，bellman-ford算法, 《算法导论》24.1, P379
     :return:
     """
     pass
