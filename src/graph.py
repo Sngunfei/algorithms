@@ -95,3 +95,11 @@ def floyd():
     """
     pass
 
+
+def maximum_flow():
+    """
+    最大流
+    :return:
+    """
+    pass
+
