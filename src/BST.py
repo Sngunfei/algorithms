@@ -200,7 +200,6 @@ class BinarySearchTree:
             while stack:
                 cur = stack.pop()
                 res.append(cur)
-
                 if cur.right:
                     stack.append(cur.right)
                     break
@@ -317,6 +316,27 @@ class BinarySearchTree:
             return node
 
         return func([len(postorder)-1], inorder)
+
+
+    def morris_inorder(self, root):
+        """
+        morris遍历法，空间复杂度为O（1），在中序遍历中，每个节点的前一个紧邻节点就是它的前序节点
+        而且我们知道，前序节点肯定没有右孩子，所以就可以利用这个空指针，让前序节点的右孩子指向当前节点
+        这样的话，我们中序遍历，就省去了递归或者栈的空间复杂度。
+
+        总的思路是： 找到前序关系， 大致可以分为几种情形。
+        给定一个节点：
+        1. 如果这个节点有左孩子，没有右指针，那这个节点的左孩子就是它的前序节点。
+        1. 如果这个节点有左孩子，并且有右指针，那么一直往右查，结果就是它的前序节点。
+        2. 如果这个节点没有左孩子，并且它是它父亲的右孩子，那么它父亲就是它的前序节点
+        3. 如果这个节点没有左孩子，并且它是它父亲的左孩子，那么它没有前序节点，它第一个输出。
+        :return:
+        """
+
+        # 详情见 sword2offer/world/morris_traversal
+
+
+        raise NotImplementedError("还没来得及写")
 
 
 if __name__ == '__main__':

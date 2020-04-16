@@ -94,6 +94,8 @@ if __name__ == '__main__':
     print(heap.heap_size)
     print(heap.pq_extract_max())
     print(heap.heap_size)
+    import heapq
+    heapq.heappush()
 
 
 

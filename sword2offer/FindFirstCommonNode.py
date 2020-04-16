@@ -5,7 +5,7 @@
 1. 用两个栈，分别压到尾节点，然后一起弹出，只到弹出不同的节点，上一个即是答案。
 2. 分别扫描长度，然后让较长的链表先走k步
 """
-from ListNode import ListNode
+from Nodes import ListNode
 
 def findFirstCommonNode_stack(list1, list2):
     stack1, stack2 = [], []

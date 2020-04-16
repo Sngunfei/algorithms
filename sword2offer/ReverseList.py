@@ -3,7 +3,7 @@
 翻转链表
 
 """
-from ListNode import ListNode
+from Nodes import ListNode
 
 def reverseList(head: ListNode):
     if not head:
@@ -17,7 +17,6 @@ def reverseList(head: ListNode):
         cur.next = prev
         prev = cur
         cur = _next
-
     return head
 
 

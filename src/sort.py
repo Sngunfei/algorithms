@@ -96,11 +96,41 @@ def selection_sort(arr):
             print(arr)
 
 
+def indexSort(arr):
+    """
+    基数排序，对数字的每一位进行一次桶排序。
+    :param arr:
+    :return:
+    """
+    maxIndex = 0
+    for num in arr:
+        index = 0
+        while num:
+            num //= 10
+            index += 1
+        maxIndex = max(maxIndex, index)
+    cnt = 0
+    while cnt < maxIndex:
+        bucket = [[] for _ in range(10)]
+        for num in arr:
+            cur = num
+            i = 0
+            while i < cnt:
+                cur //= 10
+                i += 1
+            bucket[cur % 10].append(num)
+        idx = 0
+        for _bucket in bucket:
+            for num in _bucket:
+                arr[idx] = num
+                idx += 1
+        cnt += 1
+
+
 if __name__ == '__main__':
-    arr = [i for i in range(10)]
-    random.shuffle(arr)
+    arr = [random.randint(1, 1000) for _ in range(20)]
     print(arr)
-    selection_sort(arr)
+    indexSort(arr)
     print(arr)
 
 

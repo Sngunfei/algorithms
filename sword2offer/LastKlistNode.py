@@ -7,7 +7,7 @@
 2. 判断是否是环形链表，并计算环形的长度
 """
 
-from ListNode import ListNode
+from Nodes import ListNode
 
 
 def findLast_k_NodeFromList(head: ListNode, k):
